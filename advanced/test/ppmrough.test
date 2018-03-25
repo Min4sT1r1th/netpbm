@@ -1,0 +1,6 @@
+#! /bin/bash
+# This script tests: ppmrough
+# Also requires:
+
+# Should print: 378403602 30015 (Glibc and MAC OS)
+ppmrough  -randomseed 1 | cksum
