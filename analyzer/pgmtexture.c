@@ -1,7 +1,4 @@
 /* pgmtexture.c - calculate textural features of a PGM image
-**
-
-
 */
 
 #include <assert.h>
@@ -53,10 +50,12 @@ vector(unsigned int const nl,
     float * v;
 
     assert(nh >= nl);
-
+    
+    overflow_add(nh - nl, 1);
+    
     MALLOCARRAY(v, (unsigned) (nh - nl + 1));
 
-    if (v == NULL)
+    if ( NULL == v )
         pm_error("Unable to allocate memory for a vector.");
 
     return v - nl;
@@ -85,6 +84,9 @@ matrix (unsigned int const nrl,
     assert(nrh >= nrl);
 
     /* allocate pointers to rows */
+    
+    overflow_add(nrh - nrl, 1);
+    
     MALLOCARRAY(m, (unsigned) (nrh - nrl + 1));
     if (m == NULL)
         pm_error("Unable to allocate memory for a matrix.");
@@ -94,10 +96,16 @@ matrix (unsigned int const nrl,
     assert (nch >= ncl);
 
     /* allocate rows and set pointers to them */
-    for (i = nrl; i <= nrh; ++i) {
+    
+    overflow_add(nch - ncl, 1);
+    
+    for (i = nrl; i <= nrh; ++i) 
+    {
         MALLOCARRAY(m[i], (unsigned) (nch - ncl + 1));
-        if (m[i] == NULL)
+        
+        if ( NULL == m[i] )
             pm_error("Unable to allocate memory for a matrix row.");
+        
         m[i] -= ncl;
     }
 
