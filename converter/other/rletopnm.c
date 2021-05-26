@@ -19,6 +19,8 @@
  * If you modify this software, you should include a notice giving the
  * name of the person performing the modification, the date of modification,
  * and the reason for such modification.
+ *
+ *  2002-12-19: Fix maths wrapping bugs. Alan Cox <alan@redhat.com>
  */
 /*
  * rletopnm - A conversion program to convert from Utah's "rle" image format
