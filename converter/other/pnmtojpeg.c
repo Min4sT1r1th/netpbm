@@ -606,7 +606,11 @@ read_scan_script(j_compress_ptr const cinfo,
            want JPOOL_PERMANENT.
         */
         const unsigned int scan_info_size = nscans * sizeof(jpeg_scan_info);
-        jpeg_scan_info * const scan_info =
+        const jpeg_scan_info * scan_info;
+        
+        overflow2(nscans, sizeof(jpeg_scan_info));
+        
+        scan_info =
             (jpeg_scan_info *)
             (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                         scan_info_size);
@@ -935,17 +939,19 @@ compute_rescaling_array(JSAMPLE ** const rescale_p, const pixval maxval,
    Compute the rescaling array for a maximum pixval of 'maxval'.
    Allocate the memory for it too.
 -----------------------------------------------------------------------------*/
-  const long half_maxval = maxval / 2;
-  long val;
-
-  *rescale_p = (JSAMPLE *)
-    (cinfo.mem->alloc_small) ((j_common_ptr) &cinfo, JPOOL_IMAGE,
-                              (size_t) (((long) maxval + 1L) *
-                                        sizeof(JSAMPLE)));
-  for (val = 0; val <= maxval; val++) {
-    /* The multiplication here must be done in 32 bits to avoid overflow */
-    (*rescale_p)[val] = (JSAMPLE) ((val*MAXJSAMPLE + half_maxval)/maxval);
-  }
+    const long half_maxval = maxval / 2;
+    long val;
+    
+    overflow_add(maxval, 1);
+    overflow2(maxval+1, sizeof(JSAMPLE));
+    
+    *rescale_p = (JSAMPLE *)(cinfo.mem->alloc_small)( (j_common_ptr) &cinfo, JPOOL_IMAGE, (size_t) (((long) maxval + 1L) * sizeof(JSAMPLE)) );
+    
+    for (val = 0; val <= maxval; val++)
+    {
+        /* The multiplication here must be done in 32 bits to avoid overflow */
+        (*rescale_p)[val] = (JSAMPLE) ((val*MAXJSAMPLE + half_maxval)/maxval);
+    }
 }
 
 
@@ -1016,6 +1022,9 @@ convert_scanlines(struct jpeg_compress_struct * const cinfo_p,
     */
 
   /* Allocate the libpnm output and compressor input buffers */
+  
+  overflow2(cinfo_p->image_width, cinfo_p->input_components);
+  
   buffer = (*cinfo_p->mem->alloc_sarray)
     ((j_common_ptr) cinfo_p, JPOOL_IMAGE,
      (unsigned int) cinfo_p->image_width * cinfo_p->input_components,
