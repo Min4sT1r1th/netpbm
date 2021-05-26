@@ -861,7 +861,9 @@ convertImage(FILE *                          const ofP,
 
     /* Calculate output image dimensions so we can allocate space */
     jpeg_calc_output_dimensions(cinfoP);
-
+    
+    overflow2(cinfoP->output_width, cinfoP->output_components);
+    
     /* Start decompressor */
     jpeg_start_decompress(cinfoP);
 
