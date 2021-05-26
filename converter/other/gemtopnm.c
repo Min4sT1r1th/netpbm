@@ -105,7 +105,9 @@ main(argc, argv)
         type = PPM_TYPE;
 
     pnm_writepnminit( stdout, cols, rows, MAXVAL, type, 0 );
-
+    
+    overflow_add(cols, padright);
+    
     {
         /* allocate input row data structure */
         int plane;
