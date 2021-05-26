@@ -629,6 +629,7 @@ main(int argc, char *argv[]) {
     switch (PNM_FORMAT_TYPE(format)) {
     case PBM_TYPE:
         ip.bits_per_pixel = 1;
+        overflow_add(cols, 7);
         ip.bytes_per_line = (cols + 7) / 8;
         ip.spectral = 2;
         ip.components = 1;
@@ -644,6 +645,7 @@ main(int argc, char *argv[]) {
         ip.polarity = 2;
         break;
     case PPM_TYPE:
+        overflow2(cols, 3);
         ip.bytes_per_line = 3 * cols;
         ip.bits_per_pixel = 24;
         ip.spectral = 5;
