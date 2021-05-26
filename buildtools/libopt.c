@@ -307,7 +307,17 @@ parse_filename(const char *  const filename,
         */
         *valid_library_p = FALSE;
         *error_p = FALSE;
-    } else {
+    }
+    else 
+    if (strcmp(lastdot, ".la") == 0)
+    {
+        /* Skip conversion of GNU libtool library files.
+        */
+        *valid_library_p = FALSE;
+        *error_p = FALSE;
+    }
+    else
+    {
         unsigned int prefix_length;
         bool prefix_good;
 
