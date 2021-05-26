@@ -293,18 +293,26 @@ parseCommandLine(int argc, const char ** argv,
 
     validateCompDimension(width, 72, "-width value");
     validateCompDimension(height, 72, "-height value");
-
+    
+    overflow2(width, 72);
     cmdlineP->width  = width * 72;
+    
+    overflow2(height, 72);
     cmdlineP->height = height * 72;
 
-    if (imagewidthSpec) {
+    if (imagewidthSpec) 
+    {
         validateCompDimension(imagewidth, 72, "-imagewidth value");
+        overflow2(imagewidth, 72);
         cmdlineP->imagewidth = imagewidth * 72;
     }
     else
         cmdlineP->imagewidth = 0;
-    if (imageheightSpec) {
-        validateCompDimension(imagewidth, 72, "-imageheight value");
+    
+    if (imageheightSpec)
+    {
+        validateCompDimension(imageheight, 72, "-imageheight value");
+        overflow2(imageheight, 72);
         cmdlineP->imageheight = imageheight * 72;
     }
     else
