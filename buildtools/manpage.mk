@@ -171,18 +171,18 @@ xmlvalidate: xmlpages
 .PHONY : installman
 installman: report
 	set -x
-	for f in $(wildcard $(MAN1)); do if [ -f $$f ]; then gzip <$$f >$(MANDIR)/man1/$$f.gz; fi; done
-	for f in $(wildcard $(MAN3)); do if [ -f $$f ]; then gzip <$$f >$(MANDIR)/man3/$$f.gz; fi; done
-	for f in $(wildcard $(MAN5)); do if [ -f $$f ]; then gzip <$$f >$(MANDIR)/man5/$$f.gz; fi; done
+	for f in $(wildcard $(MAN1)); do if [ -f $$f ]; then install -v -m644 $$f $(MANDIR)/man1/$$f; fi; done
+	for f in $(wildcard $(MAN3)); do if [ -f $$f ]; then install -v -m644 $$f $(MANDIR)/man3/$$f; fi; done
+	for f in $(wildcard $(MAN5)); do if [ -f $$f ]; then install -v -m644 $$f $(MANDIR)/man5/$$f; fi; done
 
 
 # This will uninstall the man pages.
 # Only pages with corresponding files in USERGUIDE are deleted.
 .PHONY : uninstallman
 uninstallman: report
-	for f in $(MAN1); do if [ -f $(MANDIR)/man1/$$f.gz ]; then rm -f $(MANDIR)/man1/$$f.gz; fi; done
-	for f in $(MAN3); do if [ -f $(MANDIR)/man3/$$f.gz ]; then rm -f $(MANDIR)/man3/$$f.gz; fi; done
-	for f in $(MAN5); do if [ -f $(MANDIR)/man5/$$f.gz ]; then rm -f $(MANDIR)/man5/$$f.gz; fi; done
+	for f in $(MAN1); do if [ -f $(MANDIR)/man1/$$f ]; then rm $(MANDIR)/man1/$$f; fi; done
+	for f in $(MAN3); do if [ -f $(MANDIR)/man3/$$f ]; then rm $(MANDIR)/man3/$$f; fi; done
+	for f in $(MAN5); do if [ -f $(MANDIR)/man5/$$f ]; then rm $(MANDIR)/man5/$$f; fi; done
 
 
 # Legacy uninstall target.
