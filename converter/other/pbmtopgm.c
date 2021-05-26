@@ -60,6 +60,9 @@ main(int argc, char *argv[]) {
 
 
     outrow = pgm_allocrow(cols) ;
+    
+    overflow2(width, height);
+    
     maxval = MIN(PGM_OVERALLMAXVAL, width*height);
     pgm_writepgminit(stdout, cols, rows, maxval, 0) ;
 
